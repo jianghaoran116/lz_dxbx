@@ -1,0 +1,25 @@
+.layoutDrawer {
+    position: relative;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    :global {
+        .am-drawer-sidebar {
+            background-color: #fff;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            z-index: 3;
+            .am-list {
+                width: 300px;
+                padding: 0;
+            }
+        }
+        .am-drawer-draghandle{
+            display: none;
+        }
+        .am-list-content{
+            .custom-nav{
+                display: block;
+            }
+        }
+    }
+}

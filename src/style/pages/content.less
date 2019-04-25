@@ -1,0 +1,23 @@
+.pageContent{
+  .am-navbar-title{
+    font-size: 16px;
+  }
+} 
+
+.contentDrawer {
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;  
+  :global {
+    .am-drawer-sidebar {
+      background-color: #fff;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 2 !important;
+      .am-list {
+        // width: 160px !important;
+        padding: 0;
+      }
+    }
+  }
+}
