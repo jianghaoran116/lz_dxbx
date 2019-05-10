@@ -12,7 +12,7 @@ const proxyOption = {
   pathRewrite: { '^/api': '/' }
 };
 
-app.set('port', process.env.PORT || 9000)
+app.set('port', process.env.PORT || 3003)
   .set('views', path.join(__dirname, '../'))
   .engine('html', require('ejs').__express)
   .set('view engine', 'html')
