@@ -1,9 +1,7 @@
 import { lazy } from "react";
 
-const Login = lazy(() => import(/* webpackChunkName: "login" */ '../pages/login/'))
-const Dashboard = lazy(() => import(/* webpackChunkName: "dashboard" */ '../pages/dashboard/'))
-
-
+const Login = lazy(() => import(/* webpackChunkName: "login" */ '../pages/login/index.js'))
+const Dashboard = lazy(() => import(/* webpackChunkName: "dashboard" */ '../pages/dashboard/index.js'))
 
 const routes = {
   initRouteList:[
