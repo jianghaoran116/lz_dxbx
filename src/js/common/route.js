@@ -1,10 +1,7 @@
-// import { lazy } from "react";
+import { lazy } from "react";
 
-// const Login = lazy(() => import(/* webpackChunkName: "login" */ '../pages/login/index.js'))
-// const Dashboard = lazy(() => import(/* webpackChunkName: "dashboard" */ '../pages/dashboard/index.js'))
-
-import Login from '../pages/login/index.js'
-import Dashboard from '../pages/dashboard/index.js'
+const Login = lazy(() => import(/* webpackChunkName: "login" */ '../pages/login/index.js'))
+const Dashboard = lazy(() => import(/* webpackChunkName: "dashboard" */ '../pages/dashboard/index.js'))
 
 const routes = {
   initRouteList:[
