@@ -201,7 +201,7 @@ class Login extends Component {
     event.persist()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ');
       }
     });
     this.props.login({'user': this.state.user, 'pwd': this.state.pwd})
