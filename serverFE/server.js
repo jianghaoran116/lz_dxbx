@@ -16,8 +16,8 @@ app.set('port', process.env.PORT || 3003)
   .set('views', path.join(__dirname, '../'))
   .engine('html', require('ejs').__express)
   .set('view engine', 'html')
-  .use('/bundle', express.static(path.join(__dirname, '../bundle')))
-  .use('/static', express.static(path.join(__dirname, '../static')))
+  .use('/ydb/bundle', express.static(path.join(__dirname, '../bundle')))
+  .use('/ydb/static', express.static(path.join(__dirname, '../static')))
   .use("/api",proxyMiddleWare(proxyOption))
   .get('/*', function (req, res) {
     res.type('html');
