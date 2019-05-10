@@ -7,10 +7,16 @@
         "transform-class-properties",
         "@babel/plugin-syntax-dynamic-import",
         [
+            "@babel/plugin-proposal-decorators", 
+            { 
+                "legacy": true 
+            }
+        ],
+        [
             "import",
             {
                 "libraryName": "antd",
-                "style": true, // or 'css'
+                "style": true // or 'css'
             },
             "ant"
         ],
@@ -23,16 +29,5 @@
             },
             "lodash"
         ]
-        // [
-        //     "react-css-modules", 
-        //     {
-        //         "exclude": "node_modules",
-        //         "filetypes": {
-        //             ".less": {
-        //                 "syntax": "postcss-less"
-        //             }
-        //         }
-        //     }
-        // ]
     ]
 }

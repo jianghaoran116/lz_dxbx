@@ -23,11 +23,17 @@ const config = (env, argv) => {
 
     if(env == 'development' && argv.devserver) {        
         configObj.devServer = {
-            port: 9001,
+            port: 9000,
             contentBase: [
                 path.join(__dirname, './bundle'),
             ],
-            hot: true
+            hot: true,
+            proxy: {
+                '/': {
+                  target: 'http://localhost:9093',
+                  pathRewrite: {'^/bundle/api' : '/'}
+                }
+            }
         }
     }
 

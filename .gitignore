@@ -6,4 +6,5 @@ node_modules/
 bundle/
 dll/
 static/
-config.js
+index.html
+/config.js

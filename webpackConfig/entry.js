@@ -1,9 +1,9 @@
-const util = require('./util.js')
-
-let entriesObj = util.getView('./src/js/pages/*.js');
+const path = require('path')
 
 const entry = (env, argv) => {
-    return entriesObj
+    return {
+        index: path.resolve(__dirname, '../src/js/index.js')
+    }
 }
 module.exports = (env, argv) => {
     return entry(env, argv)

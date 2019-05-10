@@ -14,21 +14,21 @@ const loaders = (env, argv) => {
         images: ''
     }
 
-    if (env == "development") {
+    if(env=="development") {
         _publicPathes.frontes = config.devPublicPath.frontes
         _publicPathes.images = config.devPublicPath.images
 
         _outputPathes.frontes = '../static/front'
         _outputPathes.images = '../static/'
-        if (argv.devserver) {
+        if(argv.devserver) {
             _publicPathes.frontes = '/bundle/front/'
             _publicPathes.images = '/bundle/images/'
-
+    
             _outputPathes.frontes = '../bundle/front'
             _outputPathes.images = '../bundle/images'
         }
     }
-    if (env == "production") {
+    if(env=="production") {
         _publicPathes.frontes = config.proPublibPath.frontes
         _publicPathes.images = config.proPublibPath.images
 
@@ -49,11 +49,52 @@ const loaders = (env, argv) => {
             }],
             exclude: /node_modules/
         },
+        
+        // {
+        //     test: /\.less|\.css$/,
+        //     exclude: [/node_modules/],
+        //     use: [
+        //         MiniCssExtractPlugin.loader,
+        //         // 'happypack/loader?id=happyCss',
+        //         {
+        //             loader: 'css-loader?modules&localIdentName=[name]-[hash:base64:5]',
+        //         },
+        //         {
+        //             loader: 'postcss-loader',
+        //             options: {
+        //                 indent: 'postcss',
+        //                 plugins: (loader) => [
+        //                     require('postcss-sprites')({
+        //                         spritePath: "static/",
+        //                         retina: true
+        //                     }),
+        //                     require('autoprefixer')({
+        //                         browsers: ['last 5 versions']
+        //                     })
+        //                 ]
+        //             }
+        //         },
+        //         {
+        //             loader: 'less-loader',
+        //             options: {
+        //                 sourceMap: true,
+        //                 javascriptEnabled: true,
+        //                 modifyVars: {
+        //                     'primary-color': '#531dab'
+        //                 }
+        //             }
+        //         },
+        //     ]
+        // },
         {
             test: /\.less|\.css$/,
-            exclude: [/node_modules/],
+            exclude: [
+                // /node_modules/,
+                /node_modules/,
+                path.resolve(__dirname, '../../src/style/nosprites/'),
+            ],
             use: [
-                MiniCssExtractPlugin.loader,
+                MiniCssExtractPlugin.loader,        
                 // 'happypack/loader?id=happyCss',
                 {
                     loader: 'css-loader?modules&localIdentName=[name]-[hash:base64:5]',
@@ -62,15 +103,25 @@ const loaders = (env, argv) => {
                     loader: 'postcss-loader',
                     options: {
                         indent: 'postcss',
-                        plugins: (loader) => [
-                            require('postcss-sprites')({
-                                spritePath: "static/",
-                                retina: true
-                            }),
-                            require('autoprefixer')({
-                                browsers: ['last 5 versions']
-                            })
-                        ]
+                        plugins: (loader) => {
+                            if(!!~loader.resource.indexOf('nosprites')) {
+                                return [
+                                    require('autoprefixer')({
+                                        browsers: ['last 5 versions']
+                                    })
+                                ]
+                            } else {
+                                return [
+                                    require('postcss-sprites')({
+                                        spritePath: "static/",
+                                        retina:true
+                                    }),
+                                    require('autoprefixer')({
+                                        browsers: ['last 5 versions']
+                                    })
+                                ]
+                            }
+                        }
                     }
                 },
                 {
@@ -89,10 +140,10 @@ const loaders = (env, argv) => {
             test: /\.less|\.css$/,
             exclude: [/src/],
             use: [
-                MiniCssExtractPlugin.loader,
+                MiniCssExtractPlugin.loader,        
                 'happypack/loader?id=happyCssNoSrc',
             ]
-        },
+        },        
         {
             test: /\.(png|jpg|gif|svg)$/,
             use: [{
@@ -107,8 +158,8 @@ const loaders = (env, argv) => {
                 }
             }],
             exclude: [
-                path.resolve(__dirname, '../node_modules/'),
-                path.resolve(__dirname, '../src/assets/front/')
+                path.resolve(__dirname, '../../node_modules/'),
+                path.resolve(__dirname, '../../src/assets/front/')
             ]
         },
         {
@@ -123,8 +174,8 @@ const loaders = (env, argv) => {
                 }
             }],
             exclude: [
-                path.resolve(__dirname, '../node_modules/'),
-                path.resolve(__dirname, '../src/assets/images/')
+                path.resolve(__dirname, '../../node_modules/'),
+                path.resolve(__dirname, '../../src/assets/images/')
             ]
         }
     ]

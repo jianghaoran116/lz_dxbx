@@ -10,13 +10,24 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const util = require('./util.js')
+const imageminMozjpeg = require('imagemin-mozjpeg')
 
-let pages = Object.keys(util.getView('./src/pages/*.html'));
+const config = require('../config')
 
 const plugins = (env, argv) => {
+    
+    let _publicPath = config.devPublicPath.publicPath
+
+    if(env == "development") {
+        _publicPath = config.devPublicPath.publicPath
+    }
+    if(env == "production") {
+        _publicPath = config.proPublibPath.publicPath
+    }
+
+
     let pathsToClean = [
-        "bundle", "publish"
+        "bundle", "static"
     ]
     let cleanOptions = {
         root: path.resolve(__dirname, '../'),
@@ -26,14 +37,13 @@ const plugins = (env, argv) => {
     let htmlOutputPath = ''
 
     if (env == 'development') {
-        htmlOutputPath = path.resolve(__dirname, '../publish/')
+        htmlOutputPath = path.resolve(__dirname, '../index.html')
         if (argv.devserver) {
-            htmlOutputPath = path.resolve(__dirname, '../bundle/')
+            htmlOutputPath = 'index.html'
             arrProduct = [
                 new webpack.NamedModulesPlugin(),
                 new webpack.HotModuleReplacementPlugin()
             ]
-            console.log(argv.analyzer)
             if (argv.analyzer) {
                 arrProduct.push(
                     new BundleAnalyzerPlugin()
@@ -43,8 +53,9 @@ const plugins = (env, argv) => {
     }
 
     if (env == 'production') {
-        htmlOutputPath = path.resolve(__dirname, '../publish/')
+        htmlOutputPath = path.resolve(__dirname, '../index.html')
         arrProduct = [
+            new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),
             new ImageminPlugin({
                 pngquant: {
                     quality: '80'
@@ -52,6 +63,14 @@ const plugins = (env, argv) => {
                 optipng: {
                     optimizationLevel: 6
                 }
+            }),
+            new ImageminPlugin({
+                plugins: [
+                    imageminMozjpeg({
+                        quality: 100,
+                        progressive: true
+                    })
+                ]
             }),
             new OptimizeCssAssetsPlugin({
                 assetNameRegExp: /\.css$/g,
@@ -64,8 +83,26 @@ const plugins = (env, argv) => {
         ]
     }
 
-    const _plugins = [
-        new CleanWebpackPlugin(pathsToClean, cleanOptions),
+
+    return [
+        new CleanWebpackPlugin(
+            pathsToClean, 
+            cleanOptions
+        ),
+        new HtmlWebpackPlugin({
+            title: config.pageInfo.title,
+            name: 'index',
+            template: path.resolve(__dirname, '../src/index.ejs'),
+            filename: htmlOutputPath,
+            hash: true,
+            chunks: [
+                'runtime',
+                'react',
+                'vendor',
+                'default',
+                'index'
+            ],
+        }),
         new MiniCssExtractPlugin({
             filename: "style/[name].[chunkhash:8].css",
             chunkFilename: "style/[name].[chunkhash:8].css"
@@ -113,40 +150,7 @@ const plugins = (env, argv) => {
             threadPool: happyThreadPool,
             verbose: true,
         })
-    ]
-
-    pages.forEach(pathname => {
-        let htmlname = pathname.split('src\\')[1]
-        let _chunkname = pathname.split('\\')[pathname.split('\\').length - 1]
-
-        if (!htmlname) {
-            htmlname = pathname.split('src/')[1]
-            _chunkname = pathname.split('/')[pathname.split('/').length - 1]
-        }
-        
-        let conf = {
-            filename: `${htmlOutputPath}/${htmlname}.html`,
-            template: path.resolve(__dirname, `../${pathname}.html`),
-            hash: true,
-            chunks: [
-                'runtime',
-                'react',
-                'vendors',
-                'commons',
-                _chunkname
-            ],
-            minify: {
-                // removeAttributeQuotes:true,
-                // removeComments: true,
-                // collapseWhitespace: true,
-                // removeScriptTypeAttributes:true,
-                // removeStyleLinkTypeAttributes:true
-            }
-        }
-        _plugins.unshift(new HtmlWebpackPlugin(conf));
-    });
-
-    return _plugins.concat(arrProduct)
+    ].concat(arrProduct)
 }
 module.exports = (env, argv) => {
     return plugins(env, argv)
