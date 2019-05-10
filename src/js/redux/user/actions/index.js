@@ -65,7 +65,6 @@ export function loadData(userinfo) {
 
 
 export function logout() {
-  console.log('logout')
   return {
     type: LOGOUT
   }

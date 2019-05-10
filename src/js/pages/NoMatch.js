@@ -7,7 +7,6 @@ import styles from '../../style/pages/nomatch'
 class NoMatch extends Component {
 
   render() {
-    console.log(this.props)
     return (
         <div className={styles.nomatch}>
           <div className={styles.nomatch_content}>
