@@ -81,31 +81,31 @@ export function setImportComponent(key, preComponent) {
         break;
       case "consumer_update":
         dispatch(setComponent(preComponent));
-        import(/* webpackChunkName: "consumerList-content" */ '../../../containers/pages/consumer/ConsumerUpdate.js').then(component => {
+        import(/* webpackChunkName: "consumer-update" */ '../../../containers/pages/consumer/ConsumerUpdate.js').then(component => {
           dispatch(setComponent(component.default))
         })
         break;
       case "consumer_role":
         dispatch(setComponent(preComponent));
-        import(/* webpackChunkName: "consumerList-content" */ '../../../containers/pages/consumer/ConsumerRole.js').then(component => {
+        import(/* webpackChunkName: "consumer-role" */ '../../../containers/pages/consumer/ConsumerRole.js').then(component => {
           dispatch(setComponent(component.default))
         })
         break;
       case "channel_list":
         dispatch(setComponent(preComponent));
-        import(/* webpackChunkName: "consumerList-content" */ '../../../containers/pages/channel/ChannelList.js').then(component => {
+        import(/* webpackChunkName: "channel-list" */ '../../../containers/pages/channel/ChannelList.js').then(component => {
           dispatch(setComponent(component.default))
         })
         break;
       case "statistic_consumer_info":
         dispatch(setComponent(preComponent));
-        import(/* webpackChunkName: "consumerList-content" */ '../../../containers/pages/statistic/StatisticConsumerInfo.js').then(component => {
+        import(/* webpackChunkName: "statistic-consumer-info" */ '../../../containers/pages/statistic/StatisticConsumerInfo.js').then(component => {
           dispatch(setComponent(component.default))
         })
         break;
       case "statistic_consumer_behavior":
         dispatch(setComponent(preComponent));
-        import(/* webpackChunkName: "consumerList-content" */ '../../../containers/pages/statistic/StatisticConsumerBehavior.js').then(component => {
+        import(/* webpackChunkName: "statistic-consumer-behavior" */ '../../../containers/pages/statistic/StatisticConsumerBehavior.js').then(component => {
           dispatch(setComponent(component.default))
         })
         break;
